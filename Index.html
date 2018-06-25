@@ -27,22 +27,14 @@
             <div class="row">
                 <section class="col-xl-8 my-5">
                     <div class="row" id="productCards">
-                        <article class="card">
-                            <img src="Images/Americano.jpg" alt="Americano" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Americano</h5>
-                                    <p class="card-text">Stærk bla bla bla</p>
-                                    <p class="d-flex justify-content-between"><a href="" class="btn btn-outline-dark">Bestil</a><span>60kr.</span></p>
-                                </div>
-                        </article>
                     </div>
                 </section>
 
                 <section class="col-xl-4">
                     <div>
                         <h5 class="d-flex justify-content-between text-secondary">Bestilling<span class="badge badge-pill badge-secondary">0</span></h5>
-                        <ul class="list-group">
-                            <li class="list-group-item d-flex justify-content-between">test<span>60kr.</span></li>
+                        <ul class="list-group" id="productList">
+                            
                         </ul>
                         <button class="btn dumbGreenBackground text-white w-100">Gå til betaling</button>
                     </div>
@@ -59,5 +51,8 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+        <script src="Javascript/Model/Product.js"></script>
+        <script src="Javascript/View/ProductCard.js"></script>
+        <script>window.addEventListener('load', ProductCard.SetupUserInterface)</script>
     </body>
 </html>
