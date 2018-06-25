@@ -1,0 +1,16 @@
+.BI
+{
+    background-image: url("../Images/jumbotron.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: auto;
+}
+.dumbGreenColor
+{
+    color: #268e7a;
+}
+.dumbGreenBackground
+{
+    background-color: #268e7a;
+}
