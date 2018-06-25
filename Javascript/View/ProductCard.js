@@ -24,13 +24,13 @@ class ProductCard
     RenderCard()
     {
         let productCard = 
-        `<div class="col-12 col-md-6 col-lg-4 col-xl-3">
+        `<div class="col-12 col-md-6 col-lg-4 col-xl-3" id="${this.key}">
             <article class="card">
-                <img src="Images/Americano.jpg" alt="Americano" class="card-img-top">
+                <img src="Images/${this.img}" alt="${this.name}" class="card-img-top">
                 <div class="card-body">
-                    <h5 class="card-title">Americano</h5>
-                    <p class="card-text">Stærk bla bla bla</p>
-                    <p class="d-flex justify-content-between"><a href="" class="btn btn-outline-dark">Bestil</a><span>60kr.</span></p>
+                    <h5 class="card-title">${this.name}</h5>
+                    <p class="card-text">${this.description}</p>
+                    <p class="d-flex justify-content-between"><a class="btn btn-outline-dark" onclick="ProductCard.ClickHandler('${this.key}')">Bestil</a><span>${this.price}</span></p>
                 </div>
             </article>
         </div>`
@@ -43,7 +43,7 @@ class ProductCard
      */
     RenderList()
     {
-        let listItem =  `<li class="list-group-item d-flex justify-content-between">test<span>60kr.</span></li>`
+        let listItem =  `<li class="list-group-item d-flex justify-content-between">${this.name}<span>${this.price}</span></li>`
 
         return listItem;
     }
@@ -55,7 +55,9 @@ class ProductCard
     static SetupUserInterface()
     {
         let cardSection = document.getElementById('productCards'),
-            list = document.getElementById('productList');
+            list = document.getElementById('productList'),
+            badgeCount = 0,
+            total = 0;
 
         Product.LoadAll();
 
@@ -71,8 +73,12 @@ class ProductCard
             if(productCard.order)
             {
                 list.insertAdjacentHTML('afterbegin', productCard.RenderList());
+                badgeCount += 1;
+                total += productCard.price;
             }
         }
+        document.getElementById('orderCount').innerHTML = badgeCount;
+        document.getElementById('orderTotal').innerHTML = total;
     }
 
     /**
@@ -81,12 +87,14 @@ class ProductCard
      */
     static ClickHandler(key)
     {
-        let product = Product.instances[key],
+        let product = new ProductCard(Product.instances[key], key),
             list = document.getElementById('productList');
         
         list.insertAdjacentHTML('afterbegin', product.RenderList());
 
         product.order = true;
         Product.instances[key] = product;
+
+        Product.SaveAll();
     }
 }

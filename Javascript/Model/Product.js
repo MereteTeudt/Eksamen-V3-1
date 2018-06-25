@@ -72,7 +72,7 @@ class Product
         {
             productTable = JSON.parse(productTableString);
             keys = Object.keys(productTable);
-            console.log(keys.length + 'products loaded');
+            console.log(keys.length + ' products loaded');
             for(let i = 0; i < keys.length; i++)
             {
                 key = keys[i];
@@ -91,34 +91,34 @@ class Product
     static CreateTestData()
     {
         Product.instances['americano'] = new Product({
-            "navn" : "Americano",
-            "beskrivelse" : "Stærk crema espresso med varmt vand",
-            "pris" : "60kr",
-            "img" : "Americano.jpg"
+            name : "Americano",
+            description : "Stærk crema espresso med varmt vand",
+            price : "60kr",
+            img : "Americano.jpg"
         });
         Product.instances['caffeLatte'] = new Product({
-            "navn" : "Caffe latte",
-            "beskrivelse" : "Espresso med skummet varm mælk",
-            "pris" : "65kr",
-            "img" : "Caffe_Latte.jpg"
+            name : "Caffe latte",
+            description : "Espresso med skummet varm mælk",
+            price : "65kr",
+            img : "Caffe_Latte.jpg"
         });
         Product.instances['cappuchino'] =  new Product({
-            "navn" : "Cappuccino",
-            "beskrivelse" : "Espresso med dampet mælk og skum",
-            "pris" : "75kr",
-            "img" : "Cappucino.jpg"
+            name : "Cappuccino",
+            description : "Espresso med dampet mælk og skum",
+            price : "75kr",
+            img : "Cappuccino.jpg"
         });
         Product.instances['espresso'] = new Product({
-            "navn" : "Espresso",
-            "beskrivelse" : "Espresso lavet af vores dygtigste baristaer",
-            "pris" : "50kr",
-            "img" : "Espresso.jpg"
+            name : "Espresso",
+            description : "Espresso lavet af vores dygtigste baristaer",
+            price : "50kr",
+            img : "Espresso.jpg"
         });
         Product.instances['macchiato'] = new Product({
-            "navn" : "Macchiato",
-            "beskrivelse" : "Lækker espressodrik med skummet mælk og chokolade",
-            "pris" : "100kr",
-            "img" : "Macchiato.jpg"
+            name : "Macchiato",
+            description : "Lækker espressodrik med skummet mælk og chokolade",
+            price : "100kr",
+            img : "Macchiato.jpg"
         });
 
         Product.SaveAll();
