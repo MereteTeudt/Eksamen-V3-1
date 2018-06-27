@@ -1,5 +1,13 @@
 /* Custom styling */
-.BI
+.sexyBackground
+{
+    background: linear-gradient(rgb(252, 223, 190), #4D423E);
+}
+.whiteHeader
+{
+    background-color: white;
+}
+.jumbotronImage
 {
     background-image: url("../Images/jumbotron.jpg");
     background-repeat: no-repeat;
@@ -21,9 +29,14 @@
 }
 .cardZoom
 {
-    transition: transform 2s;
+    transition: transform 1s;
 }
 .cardZoom:hover
 {
     transform: scale(1.1);
+}
+@media screen and (max-width: 768px) {
+
+    .list { order: 1; }
+    .cards { order: 2;  }
 }
