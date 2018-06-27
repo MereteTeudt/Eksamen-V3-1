@@ -1,12 +1,11 @@
 class ProductCard
 {
-
     /**
-     * @param {Bool} order
+     * 
      * @param {Object} slot 
      * @param {Number} key 
      */
-    constructor(slot, key, orderList)
+    constructor(slot, key)
     {
         this.name = slot.name;
         this.description = slot.description;
@@ -15,9 +14,8 @@ class ProductCard
 
         this.key = key;
 
-        this.orderList = orderList;
     }
-
+    
     /**
      * Contains the HTML to create the cards for the products
      */
@@ -43,9 +41,17 @@ class ProductCard
      */
     RenderList()
     {
-        let listItem =  `<li class="list-group-item d-flex justify-content-between">${this.name}<span>${this.price}</span></li>`
+        let listItem =  `<li class="list-group-item d-flex justify-content-between" id="${this.name}">${this.name}</span><span>${this.price}</span></li>`
 
         return listItem;
+    }
+    /**
+     * Updates the list with the number of this specific coffee that is ordered
+     * @param {Number} amount 
+     */
+    static UpdateList(amount)
+    {
+        return `<span>${amount}</span>`
     }
 
     /**
@@ -55,30 +61,29 @@ class ProductCard
     static SetupUserInterface()
     {
         let cardSection = document.getElementById('productCards'),
-            list = document.getElementById('productList'),
-            badgeCount = 0,
-            total = 0;
+            list = document.getElementById('productList');
 
         Product.LoadAll();
 
-        let keys = Object.keys(Product.instances);
+        let productKeys = Object.keys(Product.instances);
 
-        for(let i = 0; i < keys.length; i++)
+        for(let i = 0; i < productKeys.length; i++)
         {
-            let key = keys[i],
+            let key = productKeys[i],
                 productCard = new ProductCard(Product.instances[key], key);
 
             cardSection.insertAdjacentHTML('afterbegin', productCard.RenderCard());
 
-            if(productCard.order)
-            {
-                list.insertAdjacentHTML('afterbegin', productCard.RenderList());
-                badgeCount += 1;
-                total += productCard.price;
-            }
         }
-        document.getElementById('orderCount').innerHTML = badgeCount;
-        document.getElementById('orderTotal').innerHTML = total;
+        let orderKeys = Object.keys(Order.instances);
+
+        for(let i = 0; i < orderKeys.length; i++)
+        {
+            let key = orderKeys[i],
+                product = new Product(Product.instances[key])
+            
+            list.insertAdjacentHTML('afterbegin', product.RenderList());
+        }
     }
 
     /**
@@ -88,13 +93,39 @@ class ProductCard
     static ClickHandler(key)
     {
         let product = new ProductCard(Product.instances[key], key),
-            list = document.getElementById('productList');
+            list = document.getElementById('productList'),
+            order = {};
         
-        list.insertAdjacentHTML('afterbegin', product.RenderList());
+        
+        if(Order.instances[key])
+        {
+            order = Order.instances[key];
+            order.amount += 1;
+            console.log(order.amount);
+            let id = 'amount'+order.name;
+            console.log(id);
+            let item = document.getElementById(order.name);
+            item.insertAdjacentHTML('afterbegin', this.UpdateList(order.amount));
+        }
+        else
+        {
+            order = new Order({
+                name: product.name,
+                price: product.price,
+                amount: 1});
+            
+            list.insertAdjacentHTML('afterbegin', product.RenderList());
 
-        product.order = true;
-        Product.instances[key] = product;
+        }
+        Order.instances[key] = order;
+        let calc = Order.Calc(),
+            totalProducts = 0 + calc[0],
+            totalPrice = 0 + calc[1];
+        
+        console.log(calc[1]);
 
+        document.getElementById('orderCount').innerHTML = totalProducts;
+        document.getElementById('orderTotal').innerHTML = totalPrice;
         Product.SaveAll();
     }
 }
