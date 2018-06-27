@@ -13,7 +13,7 @@ class Order
         this.allPrice = product.amount * product.price;
     }
 
-        /**
+    /**
      * Contains the HTML to create list items in the order list
      */
     RenderList()
@@ -28,7 +28,9 @@ class Order
 
         return listItem;
     }
-
+    /**
+     * Calculates the total amount of items in Order.instances and the total price of those items and returns them as an array
+     */
     static Calc()
     {
         let product = {},
