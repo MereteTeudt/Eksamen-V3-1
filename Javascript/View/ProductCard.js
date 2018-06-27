@@ -22,13 +22,13 @@ class ProductCard
     RenderCard()
     {
         let productCard = 
-        `<div class="col-12 col-md-6 col-lg-4 col-xl-3" id="${this.key}">
-            <article class="card">
+        `<div class="col-12 col-md-6 mt-4" id="${this.key}">
+            <article class="card cardHeight cardZoom">
                 <img src="Images/${this.img}" alt="${this.name}" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title">${this.name}</h5>
-                    <p class="card-text">${this.description}</p>
-                    <p class="d-flex justify-content-between"><a class="btn btn-outline-dark" onclick="ProductCard.ClickHandler('${this.key}')">Bestil</a><span>${this.price}</span></p>
+                    <p class="card-text pHeight">${this.description}</p>
+                    <p class="d-flex justify-content-between "><a class="btn btn-outline-dark " onclick="ProductCard.ClickHandler('${this.key}')">Bestil</a><span>${this.price}kr.</span></p>
                 </div>
             </article>
         </div>`
@@ -41,7 +41,12 @@ class ProductCard
      */
     RenderList()
     {
-        let listItem =  `<li class="list-group-item d-flex justify-content-between" id="${this.name}">${this.name}</span><span>${this.price}</span></li>`
+        let listItem =  `<li class="list-group-item d-flex justify-content-between">
+                        <p>${this.name}
+                            <span id="${this.name}"></span>
+                        </p>
+                        <span>${this.price}</span>
+                        </li>`
 
         return listItem;
     }
@@ -61,7 +66,8 @@ class ProductCard
     static SetupUserInterface()
     {
         let cardSection = document.getElementById('productCards'),
-            list = document.getElementById('productList');
+            list = document.getElementById('productList'),
+            button = document.getElementById('orderButton');
 
         Product.LoadAll();
 
@@ -81,7 +87,9 @@ class ProductCard
         {
             let key = orderKeys[i],
                 product = new Product(Product.instances[key])
-            
+                
+            button.classList.remove('disabled');
+
             list.insertAdjacentHTML('afterbegin', product.RenderList());
         }
     }
@@ -94,9 +102,11 @@ class ProductCard
     {
         let product = new ProductCard(Product.instances[key], key),
             list = document.getElementById('productList'),
+            button = document.getElementById('orderButton'),
             order = {};
         
-        
+        button.classList.remove('disabled');
+
         if(Order.instances[key])
         {
             order = Order.instances[key];
@@ -105,7 +115,7 @@ class ProductCard
             let id = 'amount'+order.name;
             console.log(id);
             let item = document.getElementById(order.name);
-            item.insertAdjacentHTML('afterbegin', this.UpdateList(order.amount));
+            item.innerHTML = this.UpdateList('x'+order.amount);
         }
         else
         {
