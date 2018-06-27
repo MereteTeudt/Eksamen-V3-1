@@ -4,35 +4,25 @@ class Order
     {
         this.name = product.name;
         this.price = product.price;
+        this.amount = product.amount;
     }
 
-    static CountProducts()
+    static Calc()
     {
-        let products = 0,
-            keys = Object.keys(Order.instances);
-
-        for(let i = 0; i < keys.length; i++)
-        {
-            products += 1;
-        }
-
-        return products;
-    }
-    static OrderTotal()
-    {
-        let amount = this.CountProducts,
-            total = 0,
+        let totalProducts = 0,
+            totalPrice = 0,
             key = '',
             keys = Object.keys(Order.instances);
-        
-        for(let i = 0; i < amount; i++)
-        {
-            key = keys[i];
-            let product = Order.instances[key];
-            total += product.price;
-        }
 
-        return total;
+            for(let i = 0; i < keys.length; i++)
+            {
+                key = keys[i];
+                let product = Order.instances[key];
+                totalProducts += product.amount;
+                totalPrice += product.amount * product.price;
+            }
+        console.log(totalPrice);
+        return[totalProducts, totalPrice];
     }
 }
 Order.instances = {};
