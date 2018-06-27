@@ -128,6 +128,7 @@ class ProductCard
 
         Product.SaveAll();
     }
+    
     /**
      * A method for updating the total amount of products and total price in the list that is rendered
      */
