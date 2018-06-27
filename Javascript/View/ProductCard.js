@@ -1,7 +1,7 @@
 class ProductCard
 {
     /**
-     * 
+     * An instance of this class is a coffee product for representation on a card
      * @param {Object} slot 
      * @param {Number} key 
      */
@@ -23,12 +23,12 @@ class ProductCard
     {
         let productCard = 
         `<div class="col-12 col-md-6 mt-4" id="${this.key}">
-            <article class="card cardHeight cardZoom">
+            <article class="card cardHeight cardZoom bg-light">
                 <img src="Images/${this.img}" alt="${this.name}" class="card-img-top">
-                <div class="card-body">
+                <div class="card-body m-3 p-2 bg-white border rounded">
                     <h5 class="card-title">${this.name}</h5>
                     <p class="card-text pHeight">${this.description}</p>
-                    <p class="d-flex justify-content-between "><a class="btn btn-outline-dark " onclick="ProductCard.ClickHandler('${this.key}')">Bestil</a><span>${this.price}kr.</span></p>
+                    <p class="d-flex justify-content-between m-0"><a class="btn btn-outline-dark " onclick="ProductCard.ClickHandler('${this.key}')">Bestil</a><span>${this.price}kr.</span></p>
                 </div>
             </article>
         </div>`
@@ -37,26 +37,17 @@ class ProductCard
     }
 
     /**
-     * Contains the HTML to create list items in the order list
-     */
-    RenderList()
-    {
-        let listItem =  `<li class="list-group-item d-flex justify-content-between">
-                        <p>${this.name}
-                            <span id="${this.name}"></span>
-                        </p>
-                        <span>${this.price}</span>
-                        </li>`
-
-        return listItem;
-    }
-    /**
      * Updates the list with the number of this specific coffee that is ordered
      * @param {Number} amount 
      */
-    static UpdateList(amount)
+    static UpdateAmount(amount)
     {
-        return `<span>${amount}</span>`
+        return `<span>${amount}x</span>`
+    }
+
+    static UpdatePrice(allPrice)
+    {
+        return `<span>${allPrice}</span>`
     }
 
     /**
@@ -86,12 +77,16 @@ class ProductCard
         for(let i = 0; i < orderKeys.length; i++)
         {
             let key = orderKeys[i],
-                product = new Product(Product.instances[key])
+                order = new Order(Order.instances[key]);
                 
             button.classList.remove('disabled');
 
-            list.insertAdjacentHTML('afterbegin', product.RenderList());
+            list.insertAdjacentHTML('afterbegin', order.RenderList());
         }
+
+        ProductCard.UpdateList();
+
+        Product.SaveAll();
     }
 
     /**
@@ -109,13 +104,12 @@ class ProductCard
 
         if(Order.instances[key])
         {
-            order = Order.instances[key];
+            order = new Order(Order.instances[key]);
             order.amount += 1;
-            console.log(order.amount);
-            let id = 'amount'+order.name;
-            console.log(id);
-            let item = document.getElementById(order.name);
-            item.innerHTML = this.UpdateList('x'+order.amount);
+            Order.instances[key] = order;
+            let updatedOrder = new Order(Order.instances[key]);
+            document.getElementById(order.name+'amount').innerHTML = this.UpdateAmount(updatedOrder.amount);
+            document.getElementById(order.name+'price').innerHTML = this.UpdatePrice(updatedOrder.allPrice);
         }
         else
         {
@@ -124,18 +118,23 @@ class ProductCard
                 price: product.price,
                 amount: 1});
             
-            list.insertAdjacentHTML('afterbegin', product.RenderList());
+                Order.instances[key] = order;
+            list.insertAdjacentHTML('afterbegin', order.RenderList());
 
         }
-        Order.instances[key] = order;
+
+        
+        ProductCard.UpdateList();
+
+        Product.SaveAll();
+    }
+    static UpdateList()
+    {
         let calc = Order.Calc(),
             totalProducts = 0 + calc[0],
             totalPrice = 0 + calc[1];
-        
-        console.log(calc[1]);
 
         document.getElementById('orderCount').innerHTML = totalProducts;
         document.getElementById('orderTotal').innerHTML = totalPrice;
-        Product.SaveAll();
     }
 }
