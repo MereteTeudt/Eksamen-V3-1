@@ -1,3 +1,4 @@
+/* Custom styling */
 .BI
 {
     background-image: url("../Images/jumbotron.jpg");
@@ -13,4 +14,16 @@
 .dumbGreenBackground
 {
     background-color: #268e7a;
+}
+.pHeight
+{
+    height: 50px;
+}
+.cardZoom
+{
+    transition: transform 2s;
+}
+.cardZoom:hover
+{
+    transform: scale(1.1);
 }

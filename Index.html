@@ -23,20 +23,26 @@
                 <p class="lead">Hos DUMB STARBUCKS tilbyder vi den bedste kaffe når du har tid. Bestil nu og kom ind og drik den når du har tid.</p>
             </div>
         </header>
+
         <main class="container">
             <div class="row">
+                <!-- Section for the cards -->
                 <section class="col-xl-8 my-5">
                     <div class="row" id="productCards">
                     </div>
                 </section>
 
-                <section class="col-xl-4">
-                    <div>
-                        <h5 class="d-flex justify-content-between text-secondary">Bestilling<span class="badge badge-pill badge-secondary" id="orderCount">0</span></h5>
+                <!-- Section for the list -->
+                <section class="col-xl-4 mt-5">
+                    <div class="border bg-light p-3 rounded mt-4">
+                        <h5 class="d-flex justify-content-between text-secondary">Bestilling
+                            <span class="badge badge-pill badge-secondary" id="orderCount">0</span>
+                        </h5>
                         <ul class="list-group" id="productList">
-                            <li class="list-group-item d-flex justify-content-between">Total(DKK)<span id="orderTotal"></span></li>
+                            <!-- This is where the items are added to the list -->
+                            <li class="list-group-item d-flex justify-content-between">Total(DKK)<span id="orderTotal">0</span></li>
                         </ul>
-                        <button class="btn dumbGreenBackground text-white w-100">Gå til betaling</button>
+                        <button class="btn dumbGreenBackground text-white w-100 disabled mt-3" id="orderButton">Gå til betaling</button>
                     </div>
                 </section>
             </div>
@@ -51,6 +57,7 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+        <script src="Javascript/Model/Order.js"></script>
         <script src="Javascript/Model/Product.js"></script>
         <script src="Javascript/View/ProductCard.js"></script>
         <script>window.addEventListener('load', ProductCard.SetupUserInterface)</script>
