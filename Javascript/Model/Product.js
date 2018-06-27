@@ -1,7 +1,7 @@
 class Product
 {
     /**
-     * 
+     * In instances of this Class is a coffee product
      * @param {Object} slot 
      */
     constructor(slot)
@@ -15,19 +15,20 @@ class Product
     /**
      * Stores all the objects in Product.instances in Session Storage
      */
-    static SaveAll(orders)
+    static SaveAll()
     {
         let productTableString = '',
             orderTableString = '',
             error = false,
-            nmbrOfProducts = Object.keys(Product.instances).length;
+            nmbrOfProducts = Object.keys(Product.instances).length,
+            nmbrOfOrders = Object.keys(Order.instances).length;
 
         try
         {
             productTableString = JSON.stringify(Product.instances);
             sessionStorage['productTable'] = productTableString;
 
-            orderTableString = JSON.stringify(orders);
+            orderTableString = JSON.stringify(Order.instances);
             sessionStorage['orderTable'] = orderTableString;
         }
         catch(e)
@@ -38,6 +39,7 @@ class Product
         if(!error)
         {
             console.log(nmbrOfProducts + ' products saved.');
+            console.log(nmbrOfOrders + ' orders saved.');
         }
     }
 
@@ -45,10 +47,15 @@ class Product
      * Creates a new instance of Product from the object given in the parameter
      * @param {Object} productRow 
      */
-    static ConvertRow2Object(productRow)
+    static ConvertRow2Product(productRow)
     {
-        var product = new Product(productRow);
+        let product = new Product(productRow);
         return product;
+    }
+    static ConvertRow2Order(orderRow)
+    {
+        let order = new Order(orderRow);
+        return order;
     }
 
     /**
@@ -67,7 +74,6 @@ class Product
         {
             if(sessionStorage['productTable'])
             {
-                console.log(sessionStorage['productTable']);
                 productTableString = sessionStorage['productTable'];
             }
         }
@@ -83,7 +89,7 @@ class Product
             for(let i = 0; i < keys.length; i++)
             {
                 key = keys[i];
-                Product.instances[key] = Product.ConvertRow2Object(productTable[key]);
+                Product.instances[key] = Product.ConvertRow2Product(productTable[key]);
             }
         }
         else
@@ -94,7 +100,6 @@ class Product
         {
             if(sessionStorage['orderTable'])
             {
-                console.log(sessionStorage['orderTable']);
                 orderTableString = sessionStorage['orderTable'];
             }
         }
@@ -102,16 +107,20 @@ class Product
         {
             alert('Error when reading from Session Storage orderTable\n');
         }
-        if(! typeof orderTableString === 'undefined')
+        if(orderTableString)
         {
-            console.log(orderTableString);
+            let orderCount = 0;
             orderTable = JSON.parse(orderTableString);
-            keys = Object.keys(orderTable);
             for(let i = 0; i < keys.length; i++)
             {
-                keys = keys[i];
-                Orders.instances[key] = Orders.ConvertRow2Object(orderTable[key]);
+                key = keys[i];
+                if(orderTable[key])
+                {
+                    orderCount += 1;
+                    Order.instances[key] = Product.ConvertRow2Order(orderTable[key]);
+                }
             }
+            console.log(orderCount + ' orders loaded');
         }
     }
     /**
@@ -152,11 +161,7 @@ class Product
 
         let product = Product.instances['macchiato'];
 
-        Order.instances[product.name] = new Order({
-            name : product.name,
-            price : product.price,
-            amount : 1
-        });
+        Order.instances = {};
         Product.SaveAll(Order.instances);
     }
 }
